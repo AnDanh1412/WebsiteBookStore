@@ -1,0 +1,82 @@
+@model IEnumerable<_25dh110017_Mystore.Models.Category>
+
+@{
+    ViewBag.Title = "Quản lý danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">📂 Quản lý danh mục</h2>
+            <p class="text-muted small mb-0">Danh sách các nhóm sản phẩm trong hệ thống cửa hàng</p>
+        </div>
+        <a href="@Url.Action("Create")" class="btn btn-primary px-3 fw-bold">
+            ➕ Thêm danh mục mới
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show p-2 px-3 small" role="alert">
+            ✅ @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show p-2 px-3 small" role="alert">
+            ⚠️ @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="text-center" style="width: 100px;">Mã DM</th>
+                        <th>Tên danh mục</th>
+                        <th class="text-center" style="width: 250px;">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text-center fw-bold text-primary">#@item.CategoryID</td>
+                                <td class="fw-bold text-dark">@item.CategoryName</td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-1">
+                                        <a href="@Url.Action("Edit", new { id = item.CategoryID })"
+                                           class="btn btn-sm btn-outline-warning" title="Chỉnh sửa">
+                                            ✏️ Sửa
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.CategoryID })"
+                                           class="btn btn-sm btn-outline-info" title="Xem chi tiết">
+                                            👁️ Chi tiết
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item.CategoryID })"
+                                           class="btn btn-sm btn-outline-danger" title="Xóa danh mục">
+                                            🗑️ Xóa
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center text-muted py-5">
+                                Chưa có danh mục nào trong hệ thống.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

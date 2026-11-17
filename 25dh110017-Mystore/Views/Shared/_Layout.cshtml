@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - MyStore</title>
+    @Styles.Render("~/Content/css")
+    <!-- Giao diện cửa hàng MyStore -->
+    <link href="~/Content/ARIS-Theme.css?v=@DateTime.Now.Ticks" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark py-2">
+        <div class="container">
+            <!-- LOGO THƯƠNG HIỆU MYSTORE -->
+            <a class="navbar-brand d-flex align-items-center me-4" href="@Url.Action("Index", "Home")">
+                <span class="fw-bold text-white fs-4">MyStore</span>
+            </a>
+
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">@Html.ActionLink("Trang chủ", "Index", "Home", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Giới thiệu", "About", "Home", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Liên hệ", "Contact", "Home", null, new { @class = "nav-link" })</li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3">
+                    <!-- GIỎ HÀNG -->
+                    <div>
+                        @Html.Action("CartSummary", "Cart")
+                    </div>
+
+                    <!-- KHU VỰC TÀI KHOẢN -->
+                    <ul class="navbar-nav align-items-center mb-0">
+                        @if (Session["Username"] != null)
+                        {
+                            <li class="nav-item me-2">
+                                <span class="text-white">Xin chào, <strong class="text-info">@Session["Username"]</strong></span>
+                            </li>
+                            if ((Session["UserRole"] != null && Session["UserRole"].ToString() == "A") ||
+                                (Session["Username"] != null && Session["Username"].ToString() == "admin@gmail.com"))
+                            {
+                                <li class="nav-item me-2">
+                                    @Html.ActionLink("Trang Quản trị", "Index", "Products", new { area = "Admin" }, new { @class = "btn btn-warning btn-sm fw-bold" })
+                                </li>
+                            }
+                            <li class="nav-item me-2">
+                                @Html.ActionLink("Lịch sử", "History", "Order", null, new { @class = "btn btn-outline-info btn-sm" })
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("Đăng xuất", "Logout", "Account", null, new { @class = "btn btn-outline-light btn-sm" })
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item me-2">
+                                @Html.ActionLink("Đăng ký", "Register", "Account", null, new { @class = "btn btn-outline-light btn-sm" })
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("Đăng nhập", "Login", "Account", null, new { @class = "btn btn-primary btn-sm" })
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- NỘI DUNG CHÍNH -->
+    <div class="container body-content mt-3 flex-grow-1">
+        @RenderBody()
+    </div>
+
+    <!-- CHÂN TRANG (FOOTER) -->
+    <footer class="footer text-center py-4 mt-auto">
+        <div class="container">
+            <p class="text-muted mb-0">&copy; @DateTime.Now.Year - MyStore. Hệ thống bán hàng trực tuyến.</p>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,202 @@
+
+@model _25dh110017_Mystore.Models.ViewModel.HomeProductVM
+
+<style>
+    .feature-container {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 15px !important;
+        padding: 0 !important;
+        margin-top: 15px !important;
+    }
+
+    .fproduct-item {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 8px !important;
+        padding: 12px !important;
+        width: calc(20% - 12px) !important;
+        min-width: 180px !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+        transition: transform 0.2s, box-shadow 0.2s !important;
+    }
+
+        .fproduct-item:hover {
+            transform: translateY(-3px) !important;
+            border-color: #cbd5e1 !important;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        .fproduct-item img {
+            width: 100% !important;
+            height: 160px !important;
+            object-fit: contain !important;
+            border-radius: 6px !important;
+            margin-bottom: 8px !important;
+            background: #ffffff !important;
+        }
+
+    .prodName {
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        color: #1e293b !important;
+        height: 40px !important;
+        overflow: hidden !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        margin-bottom: 6px !important;
+    }
+
+    .prodPrice {
+        font-size: 15px !important;
+        font-weight: bold !important;
+        color: #dc2626 !important;
+        margin-bottom: 4px !important;
+    }
+
+    .prodSale {
+        font-size: 12px !important;
+        color: #64748b !important;
+        margin-bottom: 10px !important;
+    }
+
+    .btn-buy {
+        display: block !important;
+        width: 100% !important;
+        padding: 6px 0 !important;
+        background-color: #0d6efd !important;
+        color: #ffffff !important;
+        border: 1px solid #0d6efd !important;
+        border-radius: 4px !important;
+        text-align: center !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        text-decoration: none !important;
+        transition: background 0.2s ease !important;
+    }
+
+        .btn-buy:hover {
+            background-color: #0b5ed7 !important;
+            color: #ffffff !important;
+            box-shadow: 0 2px 6px rgba(13, 110, 253, 0.3);
+        }
+
+    @@media (max-width: 992px) {
+        .fproduct-item {
+            width: calc(33.333% - 10px) !important;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .fproduct-item {
+            width: calc(50% - 8px) !important;
+            min-width: 0 !important;
+        }
+    }
+</style>
+
+@if (Model != null && Model.FeaturedProducts != null && Model.FeaturedProducts.Any())
+{
+    <section class="container-fluid featureProd my-3 px-0">
+
+        <h3 class="mb-3 font-weight-bold text-dark">
+            Sản phẩm nổi bật
+        </h3>
+
+        <div class="feature-container">
+
+            @foreach (var product in Model.FeaturedProducts)
+            {
+                string imagePath = product.ProductImage;
+                string imageUrl;
+
+                if (string.IsNullOrWhiteSpace(imagePath))
+                {
+                    imageUrl = Url.Content("~/Images/default.png");
+                }
+                else
+                {
+                    imagePath = imagePath.Trim().Replace("\\", "/");
+
+                    if (imagePath.StartsWith("http://", System.StringComparison.OrdinalIgnoreCase)
+                        || imagePath.StartsWith("https://", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        imageUrl = imagePath;
+                    }
+                    else if (imagePath.StartsWith("~/"))
+                    {
+                        imageUrl = Url.Content(imagePath);
+                    }
+                    else if (imagePath.StartsWith("/"))
+                    {
+                        imageUrl = imagePath;
+                    }
+                    else if (imagePath.StartsWith("Images/", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        imageUrl = Url.Content("~/" + imagePath);
+                    }
+                    else
+                    {
+                        imageUrl = Url.Content("~/Images/" + imagePath);
+                    }
+                }
+
+                <div class="fproduct-item">
+
+                    <div>
+                        <a href="@Url.Action("ProductDetail", "Home", new { id = product.ProductID })">
+
+                            <img src="@imageUrl"
+                                 alt="@product.ProductName"
+                                 onerror="this.onerror=null; this.src='@Url.Content("~/Images/default.png")';" />
+
+                        </a>
+
+                        <p class="prodName">
+                            @product.ProductName
+                            @if (product.IsDiscontinued)
+                            {
+                                <span class="badge bg-danger ms-1" style="font-size: 10px;">Hết hàng</span>
+                            }
+                        </p>
+
+                        <p class="prodPrice">
+                            @string.Format("{0:N0}₫", product.ProductPrice)
+                        </p>
+
+                        <p class="prodSale">
+                            ★ 5 • Đã bán
+                            @(product.OrderDetails != null ? product.OrderDetails.Count() : 0)
+                        </p>
+                    </div>
+
+                    <div>
+                        @if (product.IsDiscontinued)
+                        {
+                            <span class="btn-buy" style="background: #64748b !important; border-color: #64748b !important; cursor: not-allowed; font-size: 11px !important;">
+                                ❌ Ngừng KD (Hết hàng)
+                            </span>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("AddToCart", "Cart", new { id = product.ProductID })"
+                               class="btn-buy">
+                                🛒 Mua ngay
+                            </a>
+                        }
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+    </section>
+
+    <hr class="border-secondary opacity-25 my-4" />
+}

@@ -1,0 +1,215 @@
+/* ==========================================================================
+   MYSTORE - GIAO DIỆN CỬA HÀNG TRỰC TUYẾN HIỆN ĐẠI & CHUYÊN NGHIỆP
+   ========================================================================== */
+
+/* --- NỀN VÀ BỐ CỤC TỔNG THỂ --- */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f8fafc !important;
+    background-image: none !important;
+    color: #1e293b;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container.body-content {
+    flex: 1 0 auto;
+}
+
+/* --- THANH NAVBAR ĐƠN GIẢN, LỊCH SỰ --- */
+.navbar-dark.bg-dark {
+    background-color: #1e293b !important;
+    border-bottom: 1px solid #334155 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-brand {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.navbar-nav .nav-link {
+    color: #cbd5e1 !important;
+    font-weight: 500;
+    padding: 8px 14px;
+    transition: color 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover, 
+.navbar-nav .nav-link.active {
+    color: #ffffff !important;
+}
+
+/* --- KHUNG TÌM KIẾM SẢN PHẨM --- */
+.searchProd {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    position: relative;
+}
+
+.searchProd::before {
+    display: none !important;
+}
+
+.searchProd h2 {
+    color: #1e293b;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: none !important;
+}
+
+.searchProd input.form-control {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #1e293b;
+    border-radius: 6px 0 0 6px;
+    padding: 10px 14px;
+}
+
+.searchProd input.form-control:focus {
+    background-color: #ffffff;
+    color: #1e293b;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.searchProd button.btn-primary, 
+.searchProd button.btn-info {
+    background: #0d6efd !important;
+    border: none;
+    border-radius: 0 6px 6px 0;
+    font-weight: 600;
+    color: #ffffff !important;
+    transition: background 0.2s ease;
+}
+
+.searchProd button.btn-primary:hover,
+.searchProd button.btn-info:hover {
+    background: #0b5ed7 !important;
+    box-shadow: none !important;
+}
+
+/* --- PANEL & DANH MỤC SẢN PHẨM --- */
+.cyber-panel {
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    border-radius: 10px;
+}
+
+.cyber-title {
+    color: #1e293b !important;
+    text-shadow: none !important;
+    font-weight: 700 !important;
+}
+
+.container .btn-outline-info, 
+.container .btn-outline-secondary {
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 14px;
+    border: 1px solid #cbd5e1;
+    color: #475569 !important;
+    background: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.container .btn-outline-info:hover,
+.container .btn-outline-secondary:hover {
+    background-color: #f1f5f9 !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+}
+
+.container .btn-outline-info.active {
+    background: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.2) !important;
+}
+
+/* --- THẺ SẢN PHẨM (CARD) CHUẨN THƯƠNG MẠI ĐIỆN TỬ --- */
+.card, .product-card, .fproduct-item, .lproduct-item {
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.card:hover, .product-card:hover, .fproduct-item:hover, .lproduct-item:hover {
+    transform: translateY(-4px);
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+.fproduct-item img, .lproduct-item img {
+    background: #f8fafc !important;
+    border: 1px solid #f1f5f9;
+}
+
+.prodName {
+    color: #0f172a !important;
+    font-weight: 600 !important;
+}
+
+.prodPrice {
+    color: #dc2626 !important;
+    font-weight: 700 !important;
+    text-shadow: none !important;
+}
+
+.prodSale {
+    color: #64748b !important;
+}
+
+.btn-buy {
+    background: #0d6efd !important;
+    color: #ffffff !important;
+    border: 1px solid #0d6efd !important;
+    border-radius: 6px !important;
+    padding: 8px 0 !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    transition: background 0.2s ease !important;
+}
+
+.btn-buy:hover {
+    background: #0b5ed7 !important;
+    border-color: #0b5ed7 !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 6px rgba(13, 110, 253, 0.3) !important;
+}
+
+/* --- TIÊU ĐỀ --- */
+h2, h3, h4 {
+    color: #1e293b;
+    font-weight: 700;
+}
+
+/* --- FOOTER CHUẨN XÁC --- */
+footer, footer.footer-cyber {
+    flex-shrink: 0;
+    width: 100%;
+    background-color: #ffffff !important;
+    color: #64748b !important;
+    border-top: 1px solid #e2e8f0 !important;
+    padding: 24px 0;
+    margin-top: auto !important;
+}

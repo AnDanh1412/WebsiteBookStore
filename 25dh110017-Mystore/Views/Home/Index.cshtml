@@ -1,0 +1,90 @@
+@model _25dh110017_Mystore.Models.ViewModel.HomeProductVM
+
+@{
+    ViewBag.Title = "Trang chủ - MyStore";
+    int? currentCategory = ViewBag.SelectedCategory as int?;
+}
+
+<!-- KHUNG GIAO DIỆN TỔNG THỂ -->
+<div class="container my-4" style="max-width: 1200px;">
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show p-2 px-3 small mb-3 text-center" role="alert">
+            ⚠️ @TempData["ErrorMessage"]
+        </div>
+    }
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+
+            <!-- 1. THANH DANH MỤC PHÂN LOẠI SẢN PHẨM -->
+            <div class="mb-4">
+                <div class="d-flex align-items-center justify-content-center flex-wrap gap-2 py-3 px-3 rounded bg-white shadow-sm border">
+                    <span class="text-primary fw-bold me-2">📂 Danh mục:</span>
+
+                    <a href="@Url.Action("Index", "Home")"
+                       class="btn btn-sm @(currentCategory == null || currentCategory == 0 ? "btn-outline-info active" : "btn-outline-secondary")">
+                        Tất cả
+                    </a>
+
+                    @if (ViewBag.Categories != null)
+                    {
+                        foreach (var cat in (List<_25dh110017_Mystore.Models.Category>)ViewBag.Categories)
+                        {
+                            <a href="@Url.Action("Index", "Home", new { categoryId = cat.CategoryID })"
+                               class="btn btn-sm @(currentCategory == cat.CategoryID ? "btn-outline-info active" : "btn-outline-secondary")">
+                                @cat.CategoryName
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+
+            <!-- 2. PHẦN TÌM KIẾM SẢN PHẨM -->
+            <section class="container searchProd mb-4">
+                <div class="text-center mb-3">
+                    <h2 class="text-dark font-weight-bold">🔍 Tìm kiếm sản phẩm</h2>
+                </div>
+                @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { @class = "row justify-content-center" }))
+                {
+                    <div class="col-md-9 col-lg-8">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.SearchTerm, new
+                            {
+                                @class = "form-control form-control-lg",
+                                placeholder = "Nhập từ khóa tìm kiếm (tên sách, tác giả)..."
+                            })
+                            <button type="submit" class="btn btn-primary px-4 font-weight-bold">
+                                Tìm kiếm
+                            </button>
+                        </div>
+                    </div>
+                }
+            </section>
+
+            <hr class="my-4" />
+
+            <!-- 3. KHU VỰC HIỂN THỊ SẢN PHẨM -->
+            <div id="product-section" class="container px-0">
+                @if (Model != null && ((Model.FeaturedProducts != null && Model.FeaturedProducts.Any()) || (Model.NewProducts != null && Model.NewProducts.Any())))
+                {
+                    <!-- Phần Sản phẩm nổi bật -->
+                    @Html.Partial("_PVFeatureProduct", Model)
+
+                    <hr class="my-5" />
+
+                    <!-- Phần Sản phẩm mới -->
+                    @Html.Partial("_PVNewProduct", Model)
+                }
+                else
+                {
+                    <!-- Thông báo khi trống sản phẩm -->
+                    <div class="text-center my-4 p-4 shadow-sm rounded bg-white border" role="alert">
+                        <h5 class="mb-1 text-primary">Không tìm thấy sản phẩm nào phù hợp!</h5>
+                        <p class="mb-0 text-muted">Vui lòng thử lại với từ khóa khác hoặc lựa chọn danh mục sản phẩm khác.</p>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
